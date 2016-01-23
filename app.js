@@ -13,11 +13,11 @@ document.getElementById('buttonRender').addEventListener('click', function(){
     //renderBlock();
 });
 
-var count = 1;
-
 /**
  * Render new div's with outside style param's
- * <div id = "tempDiv"></div> required
+ * <div id = "tempDiv"></div> required in html
+ * @param positParams
+ * @param base
  */
 function renderBlock(positParams, base){
     var baseArr = base;

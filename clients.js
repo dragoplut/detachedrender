@@ -1,3 +1,7 @@
+/**
+ * Processing var's
+ * @type {Array}
+ */
 var clients = [];
 var fnASC = 'fnASC';
 var fnDESC = 'fnDESC';
@@ -12,9 +16,13 @@ $(function(){
     sortClient();
 });
 
-function clientsLoaded(data){
+/**
+ * Render html after loading and sorting clients base
+ * @param data
+ */
+function renderHTML(data){
     clients = data;
-    var baseArr = renderHTML(clients);
+    var baseArr = preRender(clients);
     var positParams = {
         position: 'relative',
         left: '10px',
@@ -26,7 +34,13 @@ function clientsLoaded(data){
     renderBlock(positParams, baseArr);
 }
 
-function renderHTML(clients){
+/**
+ * Prepare arr for next processing
+ * return: base = [[blocks],[idArr]]
+ * @param clients
+ * @returns {Array}
+ */
+function preRender(clients){
     var baseArr = [];
     var blocks = [];
     var idArr = [];
@@ -40,6 +54,11 @@ function renderHTML(clients){
     return baseArr;
 }
 
+/**
+ * Load & sort base from http://apishop.herokuapp.com/client
+ * number of items set in; numOnPage, default: numOnPage = 7
+ * Call: renderHTML(result)
+ */
 function sortClient(){
     var direction = '';
     if(sortDirect == "lnDESC"){
@@ -71,7 +90,7 @@ function sortClient(){
                     alert('Помилка запиту сортування.');
                 }
             }else{
-                clientsLoaded(result);
+                renderHTML(result);
             }
         }
     })
