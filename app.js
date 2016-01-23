@@ -10,7 +10,7 @@
 document.getElementById('buttonRender').addEventListener('click', function(){
     var leftParam = document.getElementById('inputLeft').value + 'px';
     var topParam = document.getElementById('inputTop').value + 'px';
-    renderBlock(leftParam, topParam);
+    //renderBlock();
 });
 
 var count = 1;
@@ -18,20 +18,17 @@ var count = 1;
 /**
  * Render new div's with outside style param's
  * <div id = "tempDiv"></div> required
- * @param leftParam
- * @param topParam
  */
-function renderBlock(leftParam, topParam){
-    console.log(leftParam, ' - left, ', topParam, ' - top');
-    var block = '<div id="' + count + '"></div>';
-    $('#tempDiv').append(block);
-    var newDiv = document.getElementById(count);
-    newDiv.style.position = 'absolute';
-    newDiv.style.left = leftParam;
-    newDiv.style.top = topParam;
-    newDiv.style.border = '3px outset gray';
-    newDiv.style.height = '100px';
-    newDiv.style.width = '100px';
-    count += 1;
-    console.log('<div> ', count-1, ' done!')
+function renderBlock(positParams, base){
+    var baseArr = base;
+    for (var i = 0; i < baseArr[0].length; i++){
+        $('#tempDiv').append(baseArr[0][i]);
+        var newDiv = document.getElementById(baseArr[1][i]);
+        newDiv.style.position = positParams.position;
+        newDiv.style.left = positParams.left;
+        newDiv.style.top = positParams.top;
+        newDiv.style.border = positParams.border;
+        newDiv.style.height = positParams.height;
+        newDiv.style.width = positParams.width;
+    }
 }
