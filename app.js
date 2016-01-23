@@ -15,17 +15,18 @@ document.getElementById('buttonRender').addEventListener('click', function(){
 
 /**
  * Render new div's with outside style param's
- * <div id = "tempDiv"></div> required in html
+ * <div id = "tempDiv"></div> required in htmls
  * @param positParams
- * @param base
+ * @param renderedDiv
+ * @param idStr
  */
 function renderBlock(positParams, renderedDiv, idStr){
-        $('#tempDiv').append(renderedDiv);
-        var newDiv = document.getElementById(idStr);
-        newDiv.style.position = positParams.position;
-        newDiv.style.left = positParams.left;
-        newDiv.style.top = positParams.top;
-        newDiv.style.border = positParams.border;
-        newDiv.style.height = positParams.height;
-        newDiv.style.width = positParams.width;
+    $('#tempDiv').append(renderedDiv);
+    var newDiv = document.getElementById(idStr);
+    newDiv.style.position = positParams.position;
+    newDiv.style.left = positParams.left;
+    newDiv.style.top = positParams.top;
+    newDiv.style.border = positParams.border;
+    newDiv.style.height = positParams.height;
+    newDiv.style.width = positParams.width;
 }

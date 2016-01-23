@@ -34,27 +34,28 @@ function renderHTML(data){
         height: '300px',
         width: '300px'
     };
-    for (var i = 0; i < baseArr[0].length; i++) {
-        renderBlock(positParams, baseArr[0][i], baseArr[1][i]);
+    for (var i = 0; i < baseArr[0].blocks.length; i++) {
+        renderBlock(positParams, baseArr[0].blocks[i], baseArr[1].idArr[i]);
     }
 }
 
 /**
  * Prepare arr for next processing
- * return: baseArr = [[blocks],[idArr]]
+ * return: baseArr = [{blocks:[]},{idArr:[]}]
  * @param clients
  * @returns {Array}
  */
 function preRender(clients){
     var baseArr = [];
-    var blocks = [];
-    var idArr = [];
+    var tempBlocks = {blocks:[]};
+    var tempIdArr = {idArr:[]};
     for (var i = 0; i < clients.length; i++){
-        var template = '<div class="container fixMaxWith" id="' + clients[i].id + '"><img class="bigImg modal-content" src="' + clients[i].image + '"><h4 class="text-center">' + clients[i].lastName + ' ' + clients[i].firstName + ' ' + clients[i].middleName + '</h4><h5>Телефон: ' + clients[i].phone + '</h5><h5>Е-мейл: ' + clients[i].email + '</h5><h5>Адресса: ' + clients[i].address + '</h5><h5>Компанія: ' + clients[i].company + '</h5><br><p>Коротко про себе: ' + clients[i].description + '</p></div>';
-        blocks.push(template);
-        idArr.push(clients[i].id);
+        var template = [];
+        template.push('<div class="container fixMaxWith" id="' + clients[i].id + '"><img class="bigImg modal-content" src="' + clients[i].image + '"><h4 class="text-center">' + clients[i].lastName + ' ' + clients[i].firstName + ' ' + clients[i].middleName + '</h4><h5>Телефон: ' + clients[i].phone + '</h5><h5>Е-мейл: ' + clients[i].email + '</h5><h5>Адресса: ' + clients[i].address + '</h5><h5>Компанія: ' + clients[i].company + '</h5><br><p>Коротко про себе: ' + clients[i].description + '</p></div>');
+        tempBlocks.blocks.push(template);
+        tempIdArr.idArr.push(clients[i].id);
     }
-    baseArr.push(blocks, idArr);
+    baseArr.push(tempBlocks, tempIdArr);
     console.log(baseArr);
     return baseArr;
 }
