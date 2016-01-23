@@ -19,16 +19,13 @@ document.getElementById('buttonRender').addEventListener('click', function(){
  * @param positParams
  * @param base
  */
-function renderBlock(positParams, base){
-    var baseArr = base;
-    for (var i = 0; i < baseArr[0].length; i++){
-        $('#tempDiv').append(baseArr[0][i]);
-        var newDiv = document.getElementById(baseArr[1][i]);
+function renderBlock(positParams, renderedDiv, idStr){
+        $('#tempDiv').append(renderedDiv);
+        var newDiv = document.getElementById(idStr);
         newDiv.style.position = positParams.position;
         newDiv.style.left = positParams.left;
         newDiv.style.top = positParams.top;
         newDiv.style.border = positParams.border;
         newDiv.style.height = positParams.height;
         newDiv.style.width = positParams.width;
-    }
 }

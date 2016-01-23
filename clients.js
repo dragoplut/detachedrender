@@ -12,6 +12,9 @@ var pageValue = 0;
 var sortDirect = 'lnASC';
 var searchOption = 'lastName';
 
+/**
+ * Trigger func
+ */
 $(function(){
     sortClient();
 });
@@ -31,12 +34,14 @@ function renderHTML(data){
         height: '300px',
         width: '300px'
     };
-    renderBlock(positParams, baseArr);
+    for (var i = 0; i < baseArr[0].length; i++) {
+        renderBlock(positParams, baseArr[0][i], baseArr[1][i]);
+    }
 }
 
 /**
  * Prepare arr for next processing
- * return: base = [[blocks],[idArr]]
+ * return: baseArr = [[blocks],[idArr]]
  * @param clients
  * @returns {Array}
  */
