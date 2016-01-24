@@ -10,15 +10,21 @@
  */
 function render(option) {
     // render block and insert it to parent block
-    if (option.$parent == undefined || option.top == undefined || option.left == undefined){
+    if (option.$parent === undefined || option.top === undefined || option.left === undefined){
         alert('Відсутній обовязковий параметр! Виконання припинено.');
         return;
     }
-    if (option.title == undefined){
-        option.title = 'Default.';
-    }
-    if (option.backgroundColor == undefined){
+    if (option.backgroundColor === undefined){
         option.backgroundColor = '#FFFFF0';
+    }
+    if (option.margin === undefined){
+        option.margin = 10;
+    }
+    if (option.padding === undefined){
+        option.padding = 5;
+    }
+    if (option.title === undefined){
+        option.title = 'Default.';
     }
 
     var $elem = $( "<div/>", {
@@ -28,11 +34,11 @@ function render(option) {
     });
 
     $elem[0].style.backgroundColor = option.backgroundColor;
-    $elem[0].style.border = '1px solid black';
+    $elem[0].style.border = option.border;
     $elem[0].style.left = option.left + 'px';
     $elem[0].style.top = option.top + 'px';
-    $elem[0].style.margin = '10px';
-    $elem[0].style.padding = '5px';
+    $elem[0].style.margin = option.margin + 'px';
+    $elem[0].style.padding = option.padding + 'px';
     $elem[0].style.position = 'absolute';
     $elem[0].style.height = option.height + 'px';
     $elem[0].style.width = option.width + 'px';
@@ -50,6 +56,8 @@ function render(option) {
 /**
  * Track's click on any point of <div id="#mainDiv"></div>
  * Parse id of <div>, parent to click'ed object.
+ * Required target id format: TTTTNNNNNN, Example: someText12345. Error if: 123some45Text
+ * Required format id of <div>: NNNNNN. Exambpe: 12345
  * Change left/top style param of 'id' holder
  * Remove html element of 'id' holder
  */
