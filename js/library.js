@@ -49,35 +49,32 @@ function render(option) {
 
 function left(id) {
     console.info('left', id);
-
     var $elem = elements[id];
-    var styleLeft = parseInt($elem.style.left) - 10;
-    $elem.style.left = styleLeft + 'px';
+    var styleLeft = $elem.position().left - 10;
+    $elem[0].style.left = styleLeft + 'px';
+    console.info($elem.position().left, styleLeft);
 }
 
 function right(id) {
     console.info('right', id);
-
     var $elem = elements[id];
-    var styleLeft = parseInt($elem.style.left) - 10;
-    $elem.style.left = styleLeft + 'px';
+    var styleRight = $elem.position().left + 10;
+    $elem[0].style.left = styleRight + 'px';
 }
 
 //Changed fom 'top()' to 'up()' because of error 'top' attribute in 'render'
 function up(id) {
     console.info('up', id);
-
     var $elem = elements[id];
-    var styleLeft = parseInt($elem.style.left) - 10;
-    $elem.style.left = styleLeft + 'px';
+    var styleTop = $elem.position().top - 10;
+    $elem[0].style.top = styleTop + 'px';
 }
 
 function bottom(id) {
     console.info('bottom', id);
-
     var $elem = elements[id];
-    var styleLeft = parseInt($elem.style.left) - 10;
-    $elem.style.left = styleLeft + 'px';
+    var styleBottom = $elem.position().top + 10;
+    $elem[0].style.top = styleBottom + 'px';
 }
 
 /**
@@ -88,7 +85,7 @@ function bottom(id) {
 function remove(id) {
     console.info('remove', id);
     elements[id].remove();
-    elements.splice(id, 1);
+    elements.splice(id, 1, 0);
     console.info(elements, ' after remove');
 }
 
@@ -115,13 +112,13 @@ $(document).ready(function(){
         right(id);
     });
 
-    $('.btn-top').on('click', function(){
+    $('.btn-up').on('click', function(){
         console.info('btn-up click');
         var id = this.dataset.id;
         up(id);
     });
 
-    $('.btn-buttom').on('click', function(){
+    $('.btn-bottom').on('click', function(){
         console.info('btn-bottom click');
         var id = this.dataset.id;
         bottom(id);
