@@ -52,13 +52,14 @@ for(var i = 0; i < options.length; i++) {
     blockList.push(new Block(options[i]))
 }
 
-$('.btn-remove-all', this.$elem ).on('click', function () {
+$('.btn-remove-all').on('click', function () {
     console.info(blockList);
     removeAllBlocks(blockList);
 });
 
 function removeAllBlocks (allBlocks){
     for (var i = 0; i < allBlocks.length; i++){
-        allBlocks[i].$elem[0].remove();
+        allBlocks[i].removeObj();
+        blockList = null;
     }
 }
