@@ -46,6 +46,19 @@ options.push(block1);
 options.push(block2);
 options.push(block3);
 
+var blockList = [];
+
 for(var i = 0; i < options.length; i++) {
-    new Block(options[i]);
+    blockList.push(new Block(options[i]))
+}
+
+$('.btn-remove-all', this.$elem ).on('click', function () {
+    console.info(blockList);
+    removeAllBlocks(blockList);
+});
+
+function removeAllBlocks (allBlocks){
+    for (var i = 0; i < allBlocks.length; i++){
+        allBlocks[i].$elem[0].remove();
+    }
 }
