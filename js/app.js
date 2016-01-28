@@ -47,5 +47,5 @@ options.push(block2);
 options.push(block3);
 
 for(var i = 0; i < options.length; i++) {
-    render(options[i]);
+    new block(options[i]);
 }

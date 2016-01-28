@@ -1,156 +1,87 @@
+'use strict';
 
-var elements = [];
+var block = function(option) {
 
-function render(option) {
-    // render block and insert it to parent block
-    if (option.$parent === undefined || option.top === undefined || option.left === undefined){
-        throw new Error('Necessarilly parameter absent!');
-    }
-    if (option.backgroundColor === undefined){
-        option.backgroundColor = '#FFFFF0';
-    }
-    if (option.margin === undefined){
-        option.margin = 10;
-    }
-    if (option.padding === undefined){
-        option.padding = 5;
-    }
-    if (option.title === undefined){
-        option.title = 'Default.';
+    if (option.$parent === undefined || option.top === undefined || option.left === undefined) {
+        throw new Error('Necessarily parameter absent!');
     }
 
-    var $elem = $( "<div/>", {
+    console.info(this);
+    this.option = option;
+    this.option.prototype.title = 'No title.';
+    this.option.prototype.backgroundColor = '#FFFFF0';
+    this.option.prototype.margin = 10;
+    this.option.prototype.padding = 5;
+    this.option.prototype.position = 'absolute';
+
+    this.$elem = $( "<div/>", {
         id: option.ID,
         "class": "panel panel-body",
-        title: option.title
+        title: this.option.title
     });
 
-    $elem[0].style.backgroundColor = option.backgroundColor;
-    $elem[0].style.border = option.border;
-    $elem[0].style.left = option.left + 'px';
-    $elem[0].style.top = option.top + 'px';
-    $elem[0].style.margin = option.margin + 'px';
-    $elem[0].style.padding = option.padding + 'px';
-    $elem[0].style.position = 'absolute';
-    $elem[0].style.height = option.height + 'px';
-    $elem[0].style.width = option.width + 'px';
+    this.$elem[0].style.backgroundColor = this.option.backgroundColor;
+    this.$elem[0].style.border = this.option.border;
+    this.$elem[0].style.left = this.option.left + 'px';
+    this.$elem[0].style.top = this.option.top + 'px';
+    this.$elem[0].style.margin = this.option.margin + 'px';
+    this.$elem[0].style.padding = this.option.padding + 'px';
+    this.$elem[0].style.height = this.option.height + 'px';
+    this.$elem[0].style.width = this.option.width + 'px';
 
-    var arrowsBlock = '<div class="btn-group" style="left: 5px; top: 55px"><button data-id="' + option.ID + '" class="btn-left btn btn-sm btn-default"><i class="fa fa-arrow-left"></i></button><button data-id="' + option.ID + '" class="btn-right btn btn-sm btn-default"><i class="fa fa-arrow-right"></i></button><button data-id="' + option.ID + '" class="btn-up btn btn-sm btn-default"><i class="fa fa-arrow-up"></i></button><button data-id="' + option.ID + '" class="btn-bottom btn btn-sm btn-default"><i class="fa fa-arrow-down"></i></button></div>';
-    var titleBlock = '<div class="panel-heading" style="text-align: center"><h7 class="panel-title">' + option.title + '</h7></div>';
-    var closeBtn = '<div class="btn-group" style="float: right"><button data-id="' + option.ID + '" class="btn-remove btn btn-xs btn-default"><i class="fa fa-close"></i></button></div>';
-    $elem.append(closeBtn, titleBlock, arrowsBlock);
+    // we are going to handle click on these buttons in another way, we will use $('.btn-left', this.$elem).on()
+    var arrowsBlock = '<div class="btn-group" style="left: 5px; top: 55px"><button class="btn-left btn btn-sm btn-default"><i class="fa fa-arrow-left"></i></button><button class="btn-right btn btn-sm btn-default"><i class="fa fa-arrow-right"></i></button><button class="btn-top btn btn-sm btn-default"><i class="fa fa-arrow-up"></i></button><button class="btn-bottom btn btn-sm btn-default"><i class="fa fa-arrow-down"></i></button></div>';
+    var titleBlock = '<div class="panel-heading" style="text-align: center"><h7 class="panel-title">' + this.option.title + '</h7></div>';
+    var closeBtn = '<div class="btn-group" style="float: right"><button class="btn-remove btn btn-xs btn-default"><i class="fa fa-close"></i></button></div>';
 
-    console.log($elem, elements[option.ID]);
-    elements[option.ID] = $elem;
+    this.$elem.append(closeBtn, titleBlock, arrowsBlock);
+    // here we append HTML to the document
+    option.$parent.append(this.$elem[0]);
+    // and here we can write handlers for that buttons
 
-    option.$parent.append($elem);
-}
+    /* here we add second paramter this.$elem - it means we are going to find our button ONLY inside our block */
+    /* when we use $('.btn-left') - this find ALL left buttons of ALL blocks  - but here we need to handle only OUR/current block*/
+    /* Point only on button inside this.$elem HTML... - Yeah, correct */
 
+    // here we save current 'this' to another variable (self it's just name, you can call it as you wish)
+    var self = this;
 
-function left(id) {
-    console.info('left', id);
-    var $elem = elements[id];
-    var styleLeft = $elem.position().left - 10;
-    $elem[0].style.left = styleLeft + 'px';
-    console.info($elem.position().left, styleLeft);
-}
-
-function right(id) {
-    console.info('right', id);
-    var $elem = elements[id];
-    var styleRight = $elem.position().left + 10;
-    $elem[0].style.left = styleRight + 'px';
-}
-
-//Changed fom 'top()' to 'up()' because of error 'top' attribute in 'render'
-function up(id) {
-    console.info('up', id);
-    var $elem = elements[id];
-    var styleTop = $elem.position().top - 10;
-    $elem[0].style.top = styleTop + 'px';
-}
-
-function bottom(id) {
-    console.info('bottom', id);
-    var $elem = elements[id];
-    var styleBottom = $elem.position().top + 10;
-    $elem[0].style.top = styleBottom + 'px';
-}
-
-/**
- * Removing is not working correct after removing one element
- * Difference between obj ID in arr & obj id in HTML lead to removing wrong object!
-  * @param id
- */
-function remove(id) {
-    console.info('remove', id);
-    elements[id].remove();
-    elements.splice(id, 1, 0);
-    console.info(elements, ' after remove');
-}
-
-
-/**
- * Track's click on any point of <div id="#mainDiv"></div>
- * Parse id of <div>, parent to click'ed object.
- * Required target id format: TTTTNNNNNN, Example: someText12345. Error if: 123some45Text
- * Required format id of <div>: NNNNNN. Exambpe: 12345
- * Change left/top style param of 'id' holder
- * Remove html element of 'id' holder
- */
-$(document).ready(function(){
-
-    $('.btn-left').on('click', function(){
-        console.info('btn-left click');
-        var id = this.dataset.id;
-        left(id);
+    $('.btn-left', this.$elem ).on('click', function someInnerFunction() {
+        // attention!
+        // and here we need to call function left() and we must call this.left() BUT!
+        // here 'this' !== this
+        // here we located in other function someInnerFunction and this function has its own 'this'
+        // that is why we can do next
+        // and here we can use self insted of this
+        self.left();
     });
 
-    $('.btn-right').on('click', function(){
-        console.info('btn-right click');
-        var id = this.dataset.id;
-        right(id);
-    });
-
-    $('.btn-up').on('click', function(){
-        console.info('btn-up click');
-        var id = this.dataset.id;
-        up(id);
-    });
-
-    $('.btn-bottom').on('click', function(){
-        console.info('btn-bottom click');
-        var id = this.dataset.id;
-        bottom(id);
-    });
-
-    $('.btn-remove').on('click', function(){
-        console.info('btn-remove click');
-        var id = this.dataset.id;
-        remove(id);
-    });
+};
 
 
-//     $('#mainDiv').click(function(){
-//         console.log(event.target.id);
-//         var targetId = event.target.id;
-//         var posit = parseInt(targetId);
-//         var ID = targetId.slice(targetId.indexOf(posit));
-//         var $elem = document.getElementById(ID);
-//         if (targetId.indexOf('leftAr') > -1){
-//             var styleLeft = parseInt($elem.style.left) - 10;
-//             $elem.style.left = styleLeft + 'px';
-//         } else if (targetId.indexOf('rightAr') > -1){
-//             var styleRight = parseInt($elem.style.left) + 10;
-//             $elem.style.left = styleRight + 'px';
-//         } else if (targetId.indexOf('upAr') > -1){
-//             var styleUp = parseInt($elem.style.top) - 10;
-//             $elem.style.top = styleUp + 'px';
-//         } else if (targetId.indexOf('downAr') > -1){
-//             var styleDown = parseInt($elem.style.top) + 10;
-//             $elem.style.top = styleDown + 'px';
-//         } else if (targetId.indexOf('closeBtn') > -1){
-//             $elem.remove();
-//         }
-//     });
-});
+//block.prototype.left = function() {
+//    var styleLeft = this.$elem.position().left - 10;
+//    this.$elem[0].style.left = styleLeft + 'px';
+//};
+//
+//block.prototype.right = function() {
+//    var styleRight = this.$elem.position().left + 10;
+//    this.$elem[0].style.left = styleRight + 'px';
+//};
+//
+//block.prototype.top = function() {
+//    var styleTop = this.$elem.position().left + 10;
+//    this.$elem[0].style.top = styleTop + 'px';
+//};
+//
+//block.prototype.bottom = function() {
+//    var styleBottom = this.$elem.position().left + 10;
+//    this.$elem[0].style.top = styleBottom + 'px';
+//};
+//
+//// This part is not finished.
+//
+//block.prototype.removeObj = function() {
+//    this.$elem[0].ID.remove();
+//    block.splice(this.$elem[0], 1, 0);
+//};
