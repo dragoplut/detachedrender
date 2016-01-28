@@ -36,11 +36,34 @@ var Block = function(option) {
     this.$elem[0].style.height = this.option.height + 'px';
     this.$elem[0].style.width = this.option.width + 'px';
 
-    var arrowsBlock = '<div class="btn-group" style="left: 5px; top: 55px"><button class="btn-left btn btn-sm btn-default"><i class="fa fa-arrow-left"></i></button><button class="btn-right btn btn-sm btn-default"><i class="fa fa-arrow-right"></i></button><button class="btn-top btn btn-sm btn-default"><i class="fa fa-arrow-up"></i></button><button class="btn-bottom btn btn-sm btn-default"><i class="fa fa-arrow-down"></i></button></div>';
-    var titleBlock = '<div class="panel-heading" style="text-align: center"><h7 class="panel-title">' + this.option.title + '</h7></div>';
-    var closeBtn = '<div class="btn-group" style="float: right"><button class="btn-remove btn btn-xs btn-default"><i class="fa fa-close"></i></button></div>';
+    var elemTemplate = '<div class="btn-group" style="left: 5px; top: 55px">'+
+            '<button class="btn-left btn btn-sm btn-default">'+
+                '<i class="fa fa-arrow-left"></i>'+
+            '</button>'+
+            '<button class="btn-right btn btn-sm btn-default">'+
+                '<i class="fa fa-arrow-right"></i>'+
+            '</button>'+
+            '<button class="btn-top btn btn-sm btn-default">'+
+                '<i class="fa fa-arrow-up"></i>'+
+            '</button>'+
+            '<button class="btn-bottom btn btn-sm btn-default">'+
+                '<i class="fa fa-arrow-down"></i>'+
+            '</button>'+
+        '</div>'+
+        '<div class="panel-heading" style="text-align: center">'+
+            '<h7 class="panel-title">{{name}}</h7>'+
+        '</div>'+
+        '<div class="btn-group" style="float: right">'+
+            '<button class="btn-remove btn btn-xs btn-default">'+
+                '<i class="fa fa-close"></i>'+
+            '</button>'+
+        '</div>';
 
-    this.$elem.append(closeBtn, titleBlock, arrowsBlock);
+    var template = Handlebars.compile(elemTemplate);
+
+    var html = template({name: this.option.title});
+
+    this.$elem.append(html);
 
     option.$parent.append(this.$elem[0]);
 
