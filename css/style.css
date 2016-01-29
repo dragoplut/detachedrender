@@ -1,0 +1,9 @@
+.input-tiny{
+    height: 21px;
+    width: 40px;
+}
+.move-arrows{
+    position: inherit;
+    left: 14%;
+    top: 75%
+}

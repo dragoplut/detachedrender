@@ -10,8 +10,8 @@ var block1 = {
     margin: 10,
     padding: 5,
     title: "Block 1",
-    height: 150,
-    width: 150
+    height: 180,
+    width: 180
 };
 
 var block2 = {
@@ -24,8 +24,8 @@ var block2 = {
     padding: 5,
     title: "Block 2",
     backgroundColor: "#8FBC8F",
-    height: 150,
-    width: 150
+    height: 180,
+    width: 180
 };
 
 var block3 = {
@@ -37,8 +37,8 @@ var block3 = {
     margin: 10,
     padding: 5,
     title: undefined,
-    height: 150,
-    width: 150
+    height: 180,
+    width: 180
 };
 
 var options = [];
@@ -52,14 +52,64 @@ for(var i = 0; i < options.length; i++) {
     blockList.push(new Block(options[i]))
 }
 
+
+$('.btn-arrange-row').on('click', function () {
+    arrangeRow(blockList);
+});
+
+$('.btn-arrange-column').on('click', function () {
+    arrangeColumn(blockList);
+});
+
+$('.btn-all-stack').on('click', function () {
+    allStack(blockList);
+});
+
 $('.btn-remove-all').on('click', function () {
-    console.info(blockList);
     removeAllBlocks(blockList);
 });
 
-function removeAllBlocks (allBlocks){
+
+function arrangeRow (allBlocks){
     for (var i = 0; i < allBlocks.length; i++){
-        allBlocks[i].removeObj();
-        blockList = null;
+        allBlocks[i].$elem[0].style.top = allBlocks[0].$elem[0].style.top;
+        if (i != 0){
+            var prevBlock = allBlocks[i-1].$elem[0].style.left;
+            var styleLeft = parseInt(allBlocks[i].$elem[0].style.left) + 200 + parseInt(prevBlock);
+            console.info(styleLeft);
+            allBlocks[i].$elem[0].style.left = styleLeft + 'px';
+        }
+    }
+}
+
+function arrangeColumn (allBlocks){
+    for (var i = 0; i < allBlocks.length; i++){
+        if (allBlocks[i].$elem[0].lock != 'locked'){
+            allBlocks[i].$elem[0].style.left = allBlocks[0].$elem[0].style.left;
+            if (i != 0){
+                var prevBlock = allBlocks[i-1].$elem[0].style.top;
+                var styleTop = parseInt(allBlocks[i].$elem[0].style.top) + 200 + parseInt(prevBlock);
+                console.info(styleTop);
+                allBlocks[i].$elem[0].style.top = styleTop + 'px';
+            }
+        }
+    }
+}
+
+function allStack (allBlocks){
+    for (var i = 0; i < allBlocks.length; i++) {
+        if (allBlocks[i].$elem[0].lock != 'locked') {
+            allBlocks[i].$elem[0].style.left = allBlocks[0].$elem[0].style.left;
+            allBlocks[i].$elem[0].style.top = allBlocks[0].$elem[0].style.top;
+        }
+    }
+}
+
+function removeAllBlocks (allBlocks){
+    for (var i = 0; i < allBlocks.length; i++) {
+        if (allBlocks[i].$elem[0].lock != 'locked') {
+            allBlocks[i].removeObj();
+            blockList = null;
+        }
     }
 }

@@ -5,10 +5,18 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <title></title>
 </head>
 <body>
-    <div class="container"><button class="btn-remove-all btn btn-xs btn-default"><i class="fa fa-close"></i></button></div>
+    <div class="container btn-group center-block">
+        <button class="btn-remove-all btn btn-xs btn-default" title="remove all"><i class="fa fa-close"></i></button>
+        <button class="btn-arrange-row btn btn-xs btn-default" title="remove all">Arrange to row</button>
+        <button class="btn-arrange-column btn btn-xs btn-default" title="remove all">Arrange to column</button>
+        <button class="btn-all-stack btn btn-xs btn-default" title="remove all">All in one stack</button>
+        <input id="inputX" class="input-tiny">
+        <input id="inputY" class="input-tiny">
+    </div>
     <div id="mainDiv" class="container" style="position: relative"></div>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
