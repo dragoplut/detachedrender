@@ -71,14 +71,13 @@ $('.btn-remove-all').on('click', function () {
 
 
 function arrangeRow (allBlocks){
+    var left = 25;
+    var top = 25;
+    var marginBetweenBlocks = 200;
     for (var i = 0; i < allBlocks.length; i++){
-        allBlocks[i].$elem[0].style.top = allBlocks[0].$elem[0].style.top;
-        if (i != 0){
-            var prevBlock = allBlocks[i-1].$elem[0].style.left;
-            var styleLeft = parseInt(allBlocks[i].$elem[0].style.left) + 200 + parseInt(prevBlock);
-            console.info(styleLeft);
-            allBlocks[i].$elem[0].style.left = styleLeft + 'px';
-        }
+        left += marginBetweenBlocks * i;
+        allBlocks[i].$elem[0].style.top = top + 'px';
+        allBlocks[i].$elem[0].style.left = left + 'px';
     }
 }
 
