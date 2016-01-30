@@ -1,3 +1,8 @@
+.btn-clone-center{
+    position: inherit;
+    left: 30%;
+    top: 50%
+}
 .input-tiny{
     height: 21px;
     width: 40px;

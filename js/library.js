@@ -21,7 +21,7 @@ var Block = function(option) {
     }
 
     this.$elem = $( "<div/>", {
-        id: option.ID,
+        //id: option.ID,
         "class": "panel panel-body",
         title: this.option.title
     });
@@ -53,6 +53,11 @@ var Block = function(option) {
         '<div class="container-fluid" style="text-align: center">'+
             '<h7 class="panel-title">{{name}}</h7>'+
         '</div>'+
+        '<div class="btn-group btn-clone-center">'+
+            '<button class="btn-clone btn btn-sm btn-default" title="clone">Clone '+
+                '<i class="fa fa-clone"></i>'+
+            '</button>'+
+        '</div>'+
         '<div class="btn-group move-arrows">'+
             '<button class="btn-left btn btn-sm btn-default" title="left">'+
                 '<i class="fa fa-arrow-left"></i>'+
@@ -77,6 +82,10 @@ var Block = function(option) {
     option.$parent.append(this.$elem[0]);
 
     var self = this;
+
+    $('.btn-clone', this.$elem).on('click', function () {
+        self.clone();
+    });
 
     $('.btn-lock', this.$elem).on('click', function () {
         self.lock();
@@ -109,6 +118,15 @@ var Block = function(option) {
 
 };
 
+Block.prototype.clone = function(){
+    var lastPosition = parseInt(blockList.length) - 1;
+    var newId = parseInt(blockList[lastPosition].option.ID) + 1;
+    blockList.push(new Block(this.option));
+    var newBlock = blockList[lastPosition + 1];
+    newBlock.option.ID = newId;
+    newBlock.$elem[0].style.top = (parseInt(this.$elem.position().top) + parseInt(this.$elem[0].style.height)) + 'px';
+    console.info(blockList);
+};
 
 Block.prototype.lock = function() {
     var iLock = '';
