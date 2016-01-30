@@ -5,8 +5,8 @@ var block1 = {
     ID: 1,
     $parent: $('#mainDiv'),
     border: '1px solid black',
-    left: 10,
-    top: 10,
+    left: 25,
+    top: 25,
     margin: 10,
     padding: 5,
     title: "Block 1",
@@ -19,7 +19,7 @@ var block2 = {
     $parent: $('#mainDiv'),
     border: '1px solid black',
     left: 230,
-    top: 10,
+    top: 25,
     margin: 10,
     padding: 5,
     title: "Block 2",
@@ -33,7 +33,7 @@ var block3 = {
     $parent: $('#mainDiv'),
     border: '1px solid black',
     left: 450,
-    top: 10,
+    top: 25,
     margin: 10,
     padding: 5,
     title: undefined,
@@ -71,44 +71,47 @@ $('.btn-remove-all').on('click', function () {
 
 
 function arrangeRow (allBlocks){
-    var left = 25;
-    var top = 25;
+    var startLeft = 25;
+    var startTop = 25;
     var marginBetweenBlocks = 200;
     for (var i = 0; i < allBlocks.length; i++){
-        left += marginBetweenBlocks * i;
-        allBlocks[i].$elem[0].style.top = top + 'px';
-        allBlocks[i].$elem[0].style.left = left + 'px';
+        var left = startLeft + (marginBetweenBlocks * i);
+        if (!allBlocks[i].locked) {
+            allBlocks[i].$elem[0].style.top = startTop + 'px';
+            allBlocks[i].$elem[0].style.left = left + 'px';
+        }
     }
 }
 
 function arrangeColumn (allBlocks){
+    var startLeft = 25;
+    var startTop = 25;
+    var marginBetweenBlocks = 200;
     for (var i = 0; i < allBlocks.length; i++){
-        if (allBlocks[i].$elem[0].lock != 'locked'){
-            allBlocks[i].$elem[0].style.left = allBlocks[0].$elem[0].style.left;
-            if (i != 0){
-                var prevBlock = allBlocks[i-1].$elem[0].style.top;
-                var styleTop = parseInt(allBlocks[i].$elem[0].style.top) + 200 + parseInt(prevBlock);
-                console.info(styleTop);
-                allBlocks[i].$elem[0].style.top = styleTop + 'px';
-            }
+        var top = startLeft + (marginBetweenBlocks * i);
+        if (!allBlocks[i].locked) {
+            allBlocks[i].$elem[0].style.top = top + 'px';
+            allBlocks[i].$elem[0].style.left = startLeft + 'px';
         }
     }
 }
 
 function allStack (allBlocks){
+    var startLeft = 25;
+    var startTop = 25;
     for (var i = 0; i < allBlocks.length; i++) {
-        if (allBlocks[i].$elem[0].lock != 'locked') {
-            allBlocks[i].$elem[0].style.left = allBlocks[0].$elem[0].style.left;
-            allBlocks[i].$elem[0].style.top = allBlocks[0].$elem[0].style.top;
+        if (!allBlocks[i].locked) {
+            allBlocks[i].$elem[0].style.left = startLeft + 'px';
+            allBlocks[i].$elem[0].style.top = startTop + 'px';
         }
     }
 }
 
 function removeAllBlocks (allBlocks){
     for (var i = 0; i < allBlocks.length; i++) {
-        if (allBlocks[i].$elem[0].lock != 'locked') {
+        if (!allBlocks[i].locked) {
             allBlocks[i].removeObj();
-            blockList = null;
+            blockList.splice(i, 1);
         }
     }
 }

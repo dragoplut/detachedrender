@@ -36,7 +36,7 @@ var Block = function(option) {
     this.$elem[0].style.height = this.option.height + 'px';
     this.$elem[0].style.width = this.option.width + 'px';
 
-    this.$elem[0].lock = 'unlocked';
+    this.locked = false;
 
 
     var elemTemplate = '<div class="btn-group" style="float: right">'+
@@ -111,58 +111,66 @@ var Block = function(option) {
 
 
 Block.prototype.lock = function() {
-    console.info(this.$elem[0].lock);
-    if (this.$elem[0].lock == 'locked'){
+    var iLock = '';
+    console.info(this.locked);
+    if (this.locked){
         console.info('unlock');
-        var iLock = '<i class="fa fa-unlock"></i>';
-        this.$elem[0].lock = 'unlocked';
+        iLock = '<i class="fa fa-unlock"></i>';
+        this.locked = false;
         $('.btn-lock', this.$elem).html(iLock);
-    }else if (this.$elem[0].lock == 'unlocked'){
+    }else if (!this.locked){
         console.info('lock');
-        var iLock = '<i class="fa fa-lock"></i>';
-        this.$elem[0].lock = 'locked';
+        iLock = '<i class="fa fa-lock"></i>';
+        this.locked = true;
         $('.btn-lock', this.$elem).html(iLock);
     }
 };
 
 Block.prototype.move = function(e) {
     console.info(e.clientX, e.clientY);
-    if (this.$elem[0].lock != 'locked') {
+    if (!this.locked) {
         this.$elem[0].style.left = e.clientX + 'px';
         this.$elem[0].style.top = e.clientY + 'px';
     }
 };
 
 Block.prototype.left = function() {
-    if (this.$elem[0].lock != 'locked'){
+    if (!this.locked) {
         var styleLeft = this.$elem.position().left - 10;
         this.$elem[0].style.left = styleLeft + 'px';
     }
 };
 
 Block.prototype.right = function() {
-    if (this.$elem[0].lock != 'locked') {
+    if (!this.locked) {
         var styleRight = this.$elem.position().left + 10;
         this.$elem[0].style.left = styleRight + 'px';
     }
 };
 
 Block.prototype.top = function() {
-    if (this.$elem[0].lock != 'locked') {
+    if (!this.locked) {
         var styleTop = this.$elem.position().top - 10;
         this.$elem[0].style.top = styleTop + 'px';
     }
 };
 
 Block.prototype.bottom = function() {
-    if (this.$elem[0].lock != 'locked') {
+    if (!this.locked) {
         var styleBottom = this.$elem.position().top + 10;
         this.$elem[0].style.top = styleBottom + 'px';
     }
 };
 
 Block.prototype.removeObj = function() {
-    if (this.$elem[0].lock != 'locked') {
+    if (!this.locked) {
         this.$elem[0].remove();
+        for (var i = 0; i < blockList.length; i++){
+            if (this.option.ID == blockList[i].option.ID){
+                blockList.splice(i, 1);
+            }
+        }
+        console.info(this.option.ID);
+        console.info(blockList);
     }
 };
